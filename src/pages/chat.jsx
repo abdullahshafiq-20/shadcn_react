@@ -16,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import translate from 'translate-google-api'
 
 export default function ChatPage() {
   // Initialize state with localStorage if available
@@ -286,14 +285,18 @@ export default function ChatPage() {
   const translateToEnglish = async (urduText) => {
     try {
       setIsTranslating(true)
-      const result = await translate(urduText, {
-        tld: "com",
-        from: "ur",
-        to: "en",
-        corsUrl: "https://cors-anywhere.herokuapp.com/",
+      const response = await axios.get('https://api.mymemory.translated.net/get', {
+        params: {
+          q: urduText,
+          langpair: 'ur|en'
+        }
       })
       
-      return result[0]
+      if (response.data.responseStatus === 200) {
+        return response.data.responseData.translatedText
+      } else {
+        throw new Error('Translation failed')
+      }
     } catch (error) {
       console.error('Translation error:', error)
       throw new Error('Translation failed')
