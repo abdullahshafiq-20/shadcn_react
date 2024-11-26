@@ -59,6 +59,8 @@ export default function ChatPage() {
         const recognition = new SpeechRecognition()
         recognition.continuous = true
         recognition.interimResults = true
+        
+        // Set to Urdu by default
         recognition.lang = 'ur-PK'
 
         recognition.onresult = async (event) => {
@@ -255,27 +257,33 @@ export default function ChatPage() {
       
       if (input.trim()) {
         try {
-          // Show original Urdu text in chat
-          const urduMessage = { 
-            type: 'request', 
-            content: { 
-              text: input,
-              isUrdu: true 
-            } 
+          const detectedLang = detectLanguage(input)
+          
+          if (detectedLang === 'ur') {
+            // Translate to English without showing Urdu
+            const translatedText = await translateToEnglish(input)
+            setInput(translatedText)
+            
+            // Only show the translated English message
+            setMessages(prev => [...prev, {
+              type: 'request',
+              content: { text: translatedText }
+            }])
+          } else {
+            // For English, just use the input directly
+            setMessages(prev => [...prev, {
+              type: 'request',
+              content: { text: input }
+            }])
           }
-          setMessages(prev => [...prev, urduMessage])
           
-          // Translate to English
-          const translatedText = await translateToEnglish(input)
-          setInput(translatedText)
-          
-          // Send translated message
+          // Send message
           await handleSend()
           setInput('')
         } catch (error) {
           setMessages(prev => [...prev, {
             type: 'response',
-            content: { text: "Sorry, there was an error translating your message. Please try again." }
+            content: { text: "Sorry, there was an error processing your message. Please try again." }
           }])
         }
       }
@@ -303,6 +311,12 @@ export default function ChatPage() {
     } finally {
       setIsTranslating(false)
     }
+  }
+
+  const detectLanguage = (text) => {
+    // Simple language detection based on character set
+    const urduPattern = /[\u0600-\u06FF]/
+    return urduPattern.test(text) ? 'ur' : 'en'
   }
 
   return (
