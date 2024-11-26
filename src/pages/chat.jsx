@@ -305,7 +305,7 @@ export default function ChatPage() {
   return (
     <div className="h-screen bg-black text-white flex flex-col items-center justify-center overflow-hidden">
       <div className="w-full max-w-4xl h-full flex flex-col py-4 px-4">
-        <h1 className="text-5xl font-bold text-center mb-8 flex-shrink-0">
+        <h1 className="text-2xl md:text-5xl font-bold text-center mb-4 md:mb-8 flex-shrink-0">
           Database Query Assistant
         </h1>
         
@@ -325,49 +325,49 @@ export default function ChatPage() {
             </div>
           </div> */}
 
-          <CardContent className="p-4 flex-grow overflow-hidden relative">
-            <ScrollArea className="h-full pr-4" ref={scrollAreaRef}>
-              <div className="space-y-4">
+          <CardContent className="p-2 md:p-4 flex-grow overflow-hidden relative">
+            <ScrollArea className="h-full pr-2 md:pr-4" ref={scrollAreaRef}>
+              <div className="space-y-2 md:space-y-4">
                 {messages.map((message, index) => (
-                  <div key={index} className="flex items-start gap-2 mb-4">
+                  <div key={index} className="flex items-start gap-1 md:gap-2 mb-2 md:mb-4">
                     {message.type === 'response' && (
-                      <Avatar className="w-8 h-8 flex-shrink-0">
+                      <Avatar className="w-6 h-6 md:w-8 md:h-8 flex-shrink-0">
                         <AvatarImage src="/placeholder-avatar.jpg" alt="AI" />
-                        <AvatarFallback className="bg-zinc-800 text-zinc-400">AI</AvatarFallback>
+                        <AvatarFallback className="bg-zinc-800 text-zinc-400 text-xs md:text-sm">AI</AvatarFallback>
                       </Avatar>
                     )}
                     <div className={`flex-1 flex ${message.type === 'request' ? 'justify-end' : 'justify-start'}`}>
                       <div
-                        className={`p-3 rounded-lg ${
+                        className={`p-2 md:p-3 rounded-lg ${
                           message.type === 'request' 
-                            ? 'bg-teal-500 text-white min-w-[200px] max-w-[80%]' 
-                            : 'bg-zinc-800 text-zinc-100 min-w-[200px] max-w-[85%]'
+                            ? 'bg-teal-500 text-white min-w-[150px] md:min-w-[200px] max-w-[80%]' 
+                            : 'bg-zinc-800 text-zinc-100 min-w-[150px] md:min-w-[200px] max-w-[85%]'
                         }`}
                       >
-                        <div className="break-words break-all overflow-hidden overflow-wrap-break-word">
+                        <div className="break-words break-all overflow-hidden overflow-wrap-break-word text-sm md:text-base">
                           {renderMessage(message, index)}
                         </div>
                       </div>
                     </div>
                     {message.type === 'request' && (
-                      <Avatar className="w-8 h-8 flex-shrink-0">
+                      <Avatar className="w-6 h-6 md:w-8 md:h-8 flex-shrink-0">
                         <AvatarImage src="/placeholder-user.jpg" alt="User" />
-                        <AvatarFallback className="bg-zinc-800 text-zinc-400">U</AvatarFallback>
+                        <AvatarFallback className="bg-zinc-800 text-zinc-400 text-xs md:text-sm">U</AvatarFallback>
                       </Avatar>
                     )}
                   </div>
                 ))}
                 {isLoading && (
-                  <div className="flex justify-start mb-4">
-                    <Avatar className="w-8 h-8 mr-2">
+                  <div className="flex justify-start mb-2 md:mb-4">
+                    <Avatar className="w-6 h-6 md:w-8 md:h-8 mr-1 md:mr-2">
                       <AvatarImage src="/placeholder-avatar.jpg" alt="AI" />
-                      <AvatarFallback className="bg-zinc-800 text-zinc-400">AI</AvatarFallback>
+                      <AvatarFallback className="bg-zinc-800 text-zinc-400 text-xs md:text-sm">AI</AvatarFallback>
                     </Avatar>
-                    <div className="bg-zinc-800 p-3 rounded-lg">
-                      <div className="flex space-x-2">
-                        <div className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                        <div className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                        <div className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce"></div>
+                    <div className="bg-zinc-800 p-2 md:p-3 rounded-lg">
+                      <div className="flex space-x-1 md:space-x-2">
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-zinc-600 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-zinc-600 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-zinc-600 rounded-full animate-bounce"></div>
                       </div>
                     </div>
                   </div>
@@ -376,7 +376,7 @@ export default function ChatPage() {
             </ScrollArea>
           </CardContent>
           
-          <CardFooter className="border-t border-zinc-800 p-4 flex-shrink-0">
+          <CardFooter className="border-t border-zinc-800 p-2 md:p-4 flex-shrink-0">
             <form
               onSubmit={(e) => {
                 e.preventDefault()
